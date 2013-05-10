@@ -47,48 +47,49 @@ jsInheritableClass = function() {
 };
 
 /**
- * Get the called level stack
+ * Internal helper function to assert calledLevel is in correct
+ * state whenever a Called Level method is called
  */
-jsInheritableClass.prototype.getCalledLevelStack = function() {
-    return this.calledLevel;
-};
-
-/**
- * Set the called level stack
- * This should not be used externally unless you know what you are doing
- * 
- * @param {array} stack the new calledLevelStackObject
- */
-jsInheritableClass.prototype.setCalledLevelStack = function(stack) {
-    this.calledLevel = stack;
-};
+ jsInheritableClass.prototype._calledLevelStateChecker = function(method) {
+	if(typeof method !== 'string')
+		throw new jsInheritableClass.Errors.ParamNotAString('method', method);
+    if (this.calledLevel === undefined)
+        this.calledLevel = {};
+    if (this.calledLevel[method] instanceof Array !== true)
+        this.calledLevel[method] = new Array(this); 
+ }
 
 /**
  * Get the called level for .call calls
+ * 
+ * @param {string} method the method name
  */
-jsInheritableClass.prototype.getCalledLevel = function() {
-    if (this.calledLevel === undefined)
-        this.calledLevel = [this];
-    return this.calledLevel[this.calledLevel.length - 1];
+jsInheritableClass.prototype.getCalledLevel = function(method) {
+	this._calledLevelStateChecker(method);
+    return this.calledLevel[method][this.calledLevel[method].length - 1];
 };
 
 /**
  * Set the called level for .call calls
+ * 
+ * @param {string} method the method name
  */
-jsInheritableClass.prototype.addCalledLevel = function() {
-    if (this.calledLevel === undefined)
-        this.calledLevel = [this];
-    var current = this.calledLevel[this.calledLevel.length - 1];
+jsInheritableClass.prototype.addCalledLevel = function(method) {
+	this._calledLevelStateChecker(method);
+    var current = this.calledLevel[method][this.calledLevel[method].length - 1];
     if (current.parent === undefined)
         throw new jsInheritableClass.Errors.TopOfCallLevelStack();
-    this.calledLevel.push(current.parent);
+    this.calledLevel[method].push(current.parent);
 };
 
 /**
  * Set the called level for .call calls
+ * 
+ * @param {string} method the method name
  */
-jsInheritableClass.prototype.removeCalledLevel = function() {
-    this.calledLevel.pop();
+jsInheritableClass.prototype.removeCalledLevel = function(method) {
+	this._calledLevelStateChecker(method);
+    this.calledLevel[method].pop();
 };
 
 /**
@@ -103,11 +104,11 @@ jsInheritableClass.prototype.callParentMethod = function(methodName, params, sco
         scope = this;
     if (params === undefined)
         params = {};
-    this.addCalledLevel();
-    if (typeof this.getCalledLevel()[methodName] !== 'function')
+    this.addCalledLevel(methodName);
+    if (typeof this.getCalledLevel(methodName)[methodName] !== 'function')
         throw new jsInheritableClass.Errors.CallLevelMethodDoesNotExist();
-    var result = this.getCalledLevel()[methodName].apply(scope, params);
-    this.removeCalledLevel();
+    var result = this.getCalledLevel(methodName)[methodName].apply(scope, params);
+    this.removeCalledLevel(methodName);
     return result;
 };
 
@@ -149,30 +150,18 @@ jsInheritableClass.prototype.getAllRequiredMethods = function() {
 };
 
 /**
- * Call parent method with a fresh call stack
- * @param {function} passedFunction The function to call
- */
-jsInheritableClass.prototype.runMethodWithFreshCallLevelStack = function(passedFunction) {
-    var initialCallLevelStack = this.getCalledLevelStack();
-    this.setCalledLevelStack([this]);
-    var result = passedFunction.call(this);
-    this.setCalledLevelStack(initialCallLevelStack);
-    return result;
-};
-
-/**
  * Check all the necessary methods have been implemented.
  * This allows us to use this as an abstract class
  */
 jsInheritableClass.prototype.assertAllNecessaryMethodsAreImplemented = function() {
-    var requiredMethods = this.runMethodWithFreshCallLevelStack(this.getAllRequiredMethods);
-
+    var requiredMethods = this.callParentMethod('getAllRequiredMethods');
     for (var x in requiredMethods) {
         var methodName = requiredMethods[x];
         if (this[methodName] === undefined) {
             throw new jsInheritableClass.Errors.MissingRequiredMethod(methodName, this._inheritableData.className);
         }
     }
+    console.log(requiredMethods);
 };
 
 /**
@@ -208,3 +197,14 @@ jsInheritableClass.Errors.CallLevelMethodDoesNotExist = function() {
     this.message = 'Method does not seem to exist';
 };
 jsInheritableClass.Errors.CallLevelMethodDoesNotExist.prototype = Error.prototype;
+
+/**
+ * Thrown when the passed parameter should be a string
+ */
+jsInheritableClass.Errors.ParamNotAString = function(paramName, passedParam) {
+    this.name = "ParamNotAString";
+    this.message = 'The passed parameter ' + paramName + ' should be a string \nInstead passed ' + typeof passedParam;
+    if(passedParam !== undefined)
+		this.message += '\nContents: ' + passedParam.toString();
+};
+jsInheritableClass.Errors.ParamNotAString.prototype = Error.prototype;
