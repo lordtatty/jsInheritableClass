@@ -1,5 +1,5 @@
 /**
- * jsInheritableClass v0.6
+ * jsInheritableClass v0.6.5
  * 
  * ©Copyright 2013 lordtatty
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) v3.0
