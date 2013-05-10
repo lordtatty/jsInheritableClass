@@ -50,7 +50,7 @@ jsInheritableClass = function() {
  * Internal helper function to assert calledLevel is in correct
  * state whenever a Called Level method is called
  * 
- * @param {mixed} method the method name as a string or an array of strings
+ * @param {string} method the method name as a string
  */
  jsInheritableClass.prototype._getMethodCalledLevelArray = function(method) {
 	if(typeof method !== 'string')
@@ -66,7 +66,7 @@ jsInheritableClass = function() {
 /**
  * Get the called level for .call calls
  * 
- * @param {mixed} method the method name as a string or an array of strings
+ * @param {string} method the method name as a string
  */
 jsInheritableClass.prototype.getCalledLevel = function(method) {
 	var methodLevelArray = this._getMethodCalledLevelArray(method);
@@ -76,7 +76,7 @@ jsInheritableClass.prototype.getCalledLevel = function(method) {
 /**
  * Set the called level for .call calls
  * 
- * @param {mixed} method the method name as a string or an array of strings
+ * @param {string} method the method name as a string
  */
 jsInheritableClass.prototype.addCalledLevel = function(method) {
 	var methodLevelArray = this._getMethodCalledLevelArray(method);
@@ -89,7 +89,7 @@ jsInheritableClass.prototype.addCalledLevel = function(method) {
 /**
  * Set the called level for .call calls
  * 
- * @param {mixed} method the method name as a string or an array of strings
+ * @param {string} method the method name as a string
  */
 jsInheritableClass.prototype.removeCalledLevel = function(method) {
 	var methodLevelArray = this._getMethodCalledLevelArray(method);
