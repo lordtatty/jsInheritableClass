@@ -52,7 +52,7 @@ jsInheritableClass = function() {
  * 
  * @param {mixed} method the method name as a string or an array of strings
  */
- jsInheritableClass.prototype._getMethodCalledLevelArrray = function(method) {
+ jsInheritableClass.prototype._getMethodCalledLevelArray = function(method) {
 	if(typeof method !== 'string')
 		throw new jsInheritableClass.Errors.IncorretParamType('string','method', method);
     if (this.calledLevel === undefined)
@@ -69,7 +69,7 @@ jsInheritableClass = function() {
  * @param {mixed} method the method name as a string or an array of strings
  */
 jsInheritableClass.prototype.getCalledLevel = function(method) {
-	var methodLevelArray = this._getMethodCalledLevelArrray(method);
+	var methodLevelArray = this._getMethodCalledLevelArray(method);
     return methodLevelArray[methodLevelArray.length - 1];
 };
 
@@ -79,7 +79,7 @@ jsInheritableClass.prototype.getCalledLevel = function(method) {
  * @param {mixed} method the method name as a string or an array of strings
  */
 jsInheritableClass.prototype.addCalledLevel = function(method) {
-	var methodLevelArray = this._getMethodCalledLevelArrray(method);
+	var methodLevelArray = this._getMethodCalledLevelArray(method);
     var current = methodLevelArray[methodLevelArray.length - 1];
     if (current.parent === undefined)
         throw new jsInheritableClass.Errors.TopOfCallLevelStack();
@@ -92,7 +92,7 @@ jsInheritableClass.prototype.addCalledLevel = function(method) {
  * @param {mixed} method the method name as a string or an array of strings
  */
 jsInheritableClass.prototype.removeCalledLevel = function(method) {
-	var methodLevelArray = this._getMethodCalledLevelArrray(method);
+	var methodLevelArray = this._getMethodCalledLevelArray(method);
     methodLevelArray.pop();
 };
 
