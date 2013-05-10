@@ -3,8 +3,6 @@ jsInheritableClass
 
 jsInheritableClass adds class-like inheritance for Javascript
 
-Note: Currently jQuery is required due to the use of $.extend(), but I plan to patch out this dependency fairly soon.
-
 Basic Functionality
 -------------------
 
