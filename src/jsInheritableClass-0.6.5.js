@@ -28,7 +28,7 @@
  */
 Function.prototype.inheritsFrom = function(parentClass) {
     newPrototype = {};
-    for(x in parentClass.prototype){
+    for (x in parentClass.prototype) {
         newPrototype[x] = parentClass.prototype[x];
     }
     this.prototype = newPrototype;
@@ -52,16 +52,16 @@ jsInheritableClass = function() {
  * 
  * @param {string} method the method name as a string
  */
- jsInheritableClass.prototype._getMethodCalledLevelArray = function(method) {
-	if(typeof method !== 'string')
-		throw new jsInheritableClass.Errors.IncorretParamType('string','method', method);
+jsInheritableClass.prototype._getMethodCalledLevelArray = function(method) {
+    if (typeof method !== 'string')
+        throw new jsInheritableClass.Errors.IncorretParamType('string', 'method', method);
     if (this.calledLevel === undefined)
         this.calledLevel = {};
     if (this.calledLevel[method] instanceof Array !== true)
-        this.calledLevel[method] = new Array(this); 
-        
-	return this.calledLevel[method];
- }
+        this.calledLevel[method] = new Array(this);
+
+    return this.calledLevel[method];
+}
 
 /**
  * Get the called level for .call calls
@@ -69,7 +69,7 @@ jsInheritableClass = function() {
  * @param {string} method the method name as a string
  */
 jsInheritableClass.prototype.getCalledLevel = function(method) {
-	var methodLevelArray = this._getMethodCalledLevelArray(method);
+    var methodLevelArray = this._getMethodCalledLevelArray(method);
     return methodLevelArray[methodLevelArray.length - 1];
 };
 
@@ -79,7 +79,7 @@ jsInheritableClass.prototype.getCalledLevel = function(method) {
  * @param {string} method the method name as a string
  */
 jsInheritableClass.prototype.addCalledLevel = function(method) {
-	var methodLevelArray = this._getMethodCalledLevelArray(method);
+    var methodLevelArray = this._getMethodCalledLevelArray(method);
     var current = methodLevelArray[methodLevelArray.length - 1];
     if (current.parent === undefined)
         throw new jsInheritableClass.Errors.TopOfCallLevelStack();
@@ -92,7 +92,7 @@ jsInheritableClass.prototype.addCalledLevel = function(method) {
  * @param {string} method the method name as a string
  */
 jsInheritableClass.prototype.removeCalledLevel = function(method) {
-	var methodLevelArray = this._getMethodCalledLevelArray(method);
+    var methodLevelArray = this._getMethodCalledLevelArray(method);
     methodLevelArray.pop();
 };
 
@@ -207,7 +207,7 @@ jsInheritableClass.Errors.CallLevelMethodDoesNotExist.prototype = Error.prototyp
 jsInheritableClass.Errors.IncorretParamType = function(expectedType, paramName, passedParam) {
     this.name = "ParamNotAString";
     this.message = 'The passed parameter ' + paramName + ' is expected to be of type: ' + expectedType + ' \nInstead passed: ' + typeof passedParam;
-    if(passedParam !== undefined)
-		this.message += '\nContents: ' + passedParam.toString();
+    if (passedParam !== undefined)
+        this.message += '\nContents: ' + passedParam.toString();
 };
 jsInheritableClass.Errors.IncorretParamType.prototype = Error.prototype;
