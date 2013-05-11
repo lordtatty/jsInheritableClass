@@ -165,7 +165,6 @@ jsInheritableClass.prototype.assertAllNecessaryMethodsAreImplemented = function(
             throw new jsInheritableClass.Errors.MissingRequiredMethod(methodName, this._inheritableData.className);
         }
     }
-    console.log(requiredMethods);
 };
 
 /**
