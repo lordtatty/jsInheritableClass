@@ -107,7 +107,7 @@ jsInheritableClass.prototype.callParentMethod = function(methodName, params, sco
     if (scope === undefined)
         scope = this;
     if (params === undefined)
-        params = {};
+        params = [];
     this.addCalledLevel(methodName);
     if (typeof this.getCalledLevel(methodName)[methodName] !== 'function')
         throw new jsInheritableClass.Errors.CallLevelMethodDoesNotExist();
