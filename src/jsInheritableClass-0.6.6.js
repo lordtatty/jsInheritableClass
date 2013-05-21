@@ -61,7 +61,7 @@ jsInheritableClass.prototype._getMethodCalledLevelArray = function(method) {
         this.calledLevel[method] = new Array(this);
 
     return this.calledLevel[method];
-}
+};
 
 /**
  * Get the called level for .call calls
