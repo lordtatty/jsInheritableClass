@@ -44,6 +44,10 @@ var jsInheritableClass = function() {
     this.initObject();
 };
 
+jsInheritableClass.getVersion = function() {
+    return '0.6.6';
+};
+
 /**
  * Internal helper function to assert calledLevel is in correct
  * state whenever a Called Level method is called
