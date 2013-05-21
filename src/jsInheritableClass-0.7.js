@@ -1,5 +1,5 @@
 /**
- * jsInheritableClass v0.6.6
+ * jsInheritableClass v0.7
  * 
  * ©Copyright 2013 lordtatty
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) v3.0
@@ -40,10 +40,12 @@ Function.prototype.inheritsFrom = function(parentClass) {
 /**
  * Define the Constructor
  */
-var jsInheritableClass = {};
-
-jsInheritableClass = function() {
+var jsInheritableClass = function() {
     this.initObject();
+};
+
+jsInheritableClass.getVersion = function() {
+    return '0.6.7';
 };
 
 /**
@@ -61,7 +63,7 @@ jsInheritableClass.prototype._getMethodCalledLevelArray = function(method) {
         this.calledLevel[method] = new Array(this);
 
     return this.calledLevel[method];
-}
+};
 
 /**
  * Get the called level for .call calls
@@ -107,7 +109,7 @@ jsInheritableClass.prototype.callParentMethod = function(methodName, params, sco
     if (scope === undefined)
         scope = this;
     if (params === undefined)
-        params = {};
+        params = [];
     this.addCalledLevel(methodName);
     if (typeof this.getCalledLevel(methodName)[methodName] !== 'function')
         throw new jsInheritableClass.Errors.CallLevelMethodDoesNotExist();
