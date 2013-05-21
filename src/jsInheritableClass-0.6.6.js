@@ -40,9 +40,7 @@ Function.prototype.inheritsFrom = function(parentClass) {
 /**
  * Define the Constructor
  */
-var jsInheritableClass = {};
-
-jsInheritableClass = function() {
+var jsInheritableClass = function() {
     this.initObject();
 };
 
