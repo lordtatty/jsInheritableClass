@@ -1,5 +1,5 @@
 /**
- * jsInheritableClass v0.6.6
+ * jsInheritableClass v0.7
  * 
  * ©Copyright 2013 lordtatty
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) v3.0
@@ -45,7 +45,7 @@ var jsInheritableClass = function() {
 };
 
 jsInheritableClass.getVersion = function() {
-    return '0.6.6';
+    return '0.6.7';
 };
 
 /**
